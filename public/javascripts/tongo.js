@@ -1,8 +1,10 @@
 Tongo = {};
 
 Tongo.Database = Backbone.Model.extend({
-  url: function () {
-    return "/mongo-api/dbs/" + this.id;
-  },
+  urlRoot: '/mongo-api/dbs',
   idAttribute: 'name'
+});
+
+Tongo.DatabaseCollection = Backbone.Collection.extend({
+  url: "/mongo-api/dbs"
 });
