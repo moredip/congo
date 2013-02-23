@@ -21,21 +21,37 @@ describe 'DatabaseView', ->
 
     setFixtures($fixture.find('#database-list-template').clone())
     
-  it 'renders as a table row', ->
-    view.render()
-    expect( view.$el ).toBe('tr')
+  describe 'renders', ->
+    beforeEach -> view.render()
 
-  it 'renders the a link with the DB name', ->
-    view.render()
-    expect( view.$el.find('a') ).toHaveText(modelName)
+    it 'renders as a table row', ->
+      expect( view.$el ).toBe('tr')
 
-  it 'renders a DB icon', ->
-    view.render()
-    expect( view.$el ).toContain( "img[src='/img/database.png']" )
+    it 'renders the a link with the DB name', ->
+      expect( view.$el.find('a') ).toHaveText(modelName)
 
-  it 'renders a delete button', ->
-    view.render()
-    expect( view.$el ).toContain( "button i.icon.icon-remove" )
+    it 'renders a DB icon', ->
+      expect( view.$el ).toContain( "img[src='/img/database.png']" )
+
+    it 'renders a delete button', ->
+      expect( view.$el ).toContain( "button i.icon.icon-remove" )
+
+  describe 'event handling', ->
+    beforeEach -> view.render()
+
+    it 'publishes a remove event on the model', ->
+      removeEventSpy = sinon.spy()
+      model.on('remove', removeEventSpy )
+      view.$el.find('button').click()
+      expect( removeEventSpy ).toHaveBeenCalled()
+
+    it 'publishes a show event on the model', ->
+      showEventSpy = sinon.spy()
+      model.on('show', showEventSpy )
+      view.$el.find('a').click()
+      expect( showEventSpy ).toHaveBeenCalled()
+
+
 
 
 
