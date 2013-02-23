@@ -14,12 +14,7 @@
   <script type="text/javascript" src="/javascripts/backbone.js"></script>
   <script type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
 
-  <script type="text/javascript" src="/javascripts/congo/index.js"></script>
-  <script type="text/javascript" src="/javascripts/congo/base.js"></script>
-  <script type="text/javascript" src="/javascripts/congo/nav.js"></script>
-  <script type="text/javascript" src="/javascripts/congo/database.js"></script>
-  <script type="text/javascript" src="/javascripts/congo/collections.js"></script>
-  <script type="text/javascript" src="/javascripts/congo/documents.js"></script>
+  <script type="text/javascript" src="/javascripts/tongo.js"></script>
   <script type="text/javascript" src="/javascripts/ace/ace.js"></script>
   <script type="text/javascript" src="/javascripts/ace/mode-json.js"></script>
 
@@ -30,9 +25,6 @@
   <script type="text/javascript" src="jasmine-sinon.js"></script>
   <script type="text/javascript" src="jasmine-html.js"></script>
 
-  
-  <script type="text/javascript" src="the_spec.js"></script>
-
   <script type="text/coffeescript">
     jasmineEnv = jasmine.getEnv()
     jasmineEnv.updateInterval = 1000
@@ -42,9 +34,15 @@
     jasmineEnv.addReporter(trivialReporter)
 
     jasmineEnv.specFilter = (spec)-> trivialReporter.specFilter(spec)
+    window.runJasmineSpecs = -> jasmineEnv.execute()
 
-    jasmine.getFixtures().fixturesPath = '/';
-    jasmineEnv.execute();
+    jasmine.getFixtures().fixturesPath = ''
+  </script>
+
+  <script type="text/coffeescript" src="tongo_spec.coffee"></script>
+
+  <script type="text/coffeescript">
+    window.runJasmineSpecs()
   </script>
 </head>
 
