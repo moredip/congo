@@ -103,3 +103,45 @@ describe( 'Congo.BreadcrumbView', function(){
     });
   });
 });
+
+describe( 'Congo.DatabaseOptionView', function(){
+
+  describe( 'addDb', function(){
+
+    var fakeDb, databaseCtorSpy, databasesSpy, $elFixture, view;
+    beforeEach( function(){
+      loadFixtures('');
+
+      view = new Congo.DatabaseOptionView();
+
+      fakeDb = {
+        save: sinon.spy()
+      };
+      databaseCtorSpy = sinon.stub( Congo, 'Database' ).returns( fakeDb );
+      Congo.databases = {
+        add: sinon.spy()
+      }
+    });
+
+    afterEach( function(){
+      databaseCtorSpy.restore();
+    });
+
+    it( 'creates a new database with the right name when the form is submitted', function(){
+      view.$el.find('form input.newDb').val('new db name');
+      view.$el.find('form').submit();
+      expect( databaseCtorSpy ).toHaveBeenCalledWith({name:'new db name'});
+    });
+
+    it( 'saves the db', function(){
+      view.$el.find('form').submit();
+      expect( fakeDb.save ).toHaveBeenCalled();
+    });
+
+    it( 'adds the new db to the collection of databases', function(){
+      view.$el.find('form').submit();
+      expect( Congo.databases.add ).toHaveBeenCalledWith(fakeDb);
+    });
+
+  });
+});

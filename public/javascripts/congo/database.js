@@ -19,7 +19,7 @@ Congo.DatabaseOptionView = Congo.View.extend({
   },
   addDb: function (event) {
     event.preventDefault();
-    var newDbName = $("#newDb").val();
+    var newDbName = this.$("input.newDb").val();
     var newDb = new Congo.Database({ name: newDbName });
     newDb.save();
     Congo.databases.add(newDb);
