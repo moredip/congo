@@ -56,8 +56,6 @@ describe 'DatabaseView', ->
 
 
 
-
-
 describe 'DatabaseListView', ->
   beforeEach ->
     needsTemplate('#database-list-template')
@@ -77,4 +75,13 @@ describe 'DatabaseListView', ->
     view.render()
     expect( view.$el ).toContain("a:contains('my-first-db')")
     expect( view.$el ).toContain("a:contains('my-second-db')")
+
+   it 're-renders when a collection item is added', ->
+    collection = new Tongo.DatabaseCollection
+    view = new Tongo.DatabaseListView( {collection} )
+
+    expect( view.$el ).not.toContain('a')
+    collection.add( {name: 'some-db'} )
+    expect( view.$el ).toContain('a')
+
  
