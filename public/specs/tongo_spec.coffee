@@ -1,5 +1,8 @@
 $fixture = $( readFixtures('tongo') )
 
+needsTemplate = (templateSelector)->
+  setFixtures($fixture.find(templateSelector).clone())
+
 describe 'Databases collection', ->
   it 'has the right url', ->
     collection = new Tongo.DatabaseCollection
@@ -19,8 +22,8 @@ describe 'DatabaseView', ->
     model = new Tongo.Database(name:modelName)
     view = new Tongo.DatabaseView( model: model )
 
-    setFixtures($fixture.find('#database-list-template').clone())
-    
+    needsTemplate('#database-list-template')
+
   describe 'renders', ->
     beforeEach -> view.render()
 
@@ -56,9 +59,22 @@ describe 'DatabaseView', ->
 
 
 describe 'DatabaseListView', ->
+  beforeEach ->
+    needsTemplate('#database-list-template')
+
   it 'renders as a striped table', ->
     view = new Tongo.DatabaseListView
     view.render()
     expect( view.$el ).toBe('table.table.table-striped')
 
+  it 'renders each model in its collection', ->
+    collection = new Tongo.DatabaseCollection
+    collection.add [
+      { name: 'my-first-db' },
+      { name: 'my-second-db' }
+    ]
+    view = new Tongo.DatabaseListView( {collection} )
+    view.render()
+    expect( view.$el ).toContain("a:contains('my-first-db')")
+    expect( view.$el ).toContain("a:contains('my-second-db')")
  

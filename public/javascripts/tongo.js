@@ -23,7 +23,7 @@ Tongo.DatabaseView = Backbone.View.extend({
   render: function(){
     var compiled = _.template( this.template(), this.model.attributes );
     this.$el.html(compiled);
-    this
+    return this;
   },
 
   onRemoveClicked: function(){
@@ -37,5 +37,19 @@ Tongo.DatabaseView = Backbone.View.extend({
 
 Tongo.DatabaseListView = Backbone.View.extend({
   tagName: 'table',
-  className: 'table table-striped'
+  className: 'table table-striped',
+
+  initialize: function(){
+    this.collection = this.collection || new Tongo.DatabaseCollection()
+  },
+
+  render: function(){
+    var els = [];
+    this.collection.each(function (item) {
+      var itemView = new Tongo.DatabaseView({ model: item });
+      els.push(itemView.render().el);
+    });
+    this.$el.empty().append(els);
+    return this;
+  }
 });
